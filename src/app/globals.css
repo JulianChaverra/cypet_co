@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --tron-blue: #00e5ff;
+  --tron-dark: #020617;
+  --tron-pink: #ff4081;
+}
+
+body {
+  background-color: var(--tron-dark);
+  color: var(--tron-blue);
+  font-family: 'Courier New', Courier, monospace;
+  margin: 0;
+  padding: 0;
+}
+
+/* CONTENEDOR CLÁSICO CON MARGEN */
+.container-cypet {
+  max-width: 1000px; /* Ancho fijo para evitar que se estire */
+  margin: 0 auto;    /* Centrado horizontal */
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header-logo {
+  width: 100%;
+  border-bottom: 1px solid rgba(0, 229, 255, 0.1);
+  padding-bottom: 30px;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.logo-img {
+  max-width: 250px;
+  height: auto;
+  margin: 0 auto;
+  filter: drop-shadow(0 0 10px rgba(0, 229, 255, 0.5));
+}
+
+.grid-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* 2 partes terminal, 1 parte sidebar */
+  gap: 30px;
+  width: 100%;
+}
+
+.terminal-box {
+  border-left: 4px solid var(--tron-blue);
+  background: rgba(0, 0, 0, 0.6);
+  padding: 25px;
+  position: relative;
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.1);
+}
+
+.sidebar-box {
+  background: rgba(0, 229, 255, 0.05);
+  border: 1px solid rgba(0, 229, 255, 0.2);
+  padding: 20px;
+}
+
+.text-glow { text-shadow: 0 0 8px var(--tron-blue); }
+.text-pink { color: var(--tron-pink); }
+
+/* Scanlines Effect */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+              linear-gradient(90deg, rgba(0, 229, 255, 0.02), rgba(0, 0, 0, 0), rgba(0, 229, 255, 0.02));
+  background-size: 100% 3px, 3px 100%;
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .grid-layout { grid-template-columns: 1fr; }
+}
+
+/* --- AÑADE O AJUSTA ESTO EN TU globals.css --- */
+
+@media (max-width: 768px) {
+  .container-cypet {
+    padding: 20px 15px; /* Menos margen en móviles para ganar espacio */
+  }
+
+  .grid-layout {
+    grid-template-columns: 1fr; /* Una sola columna: terminal arriba, sidebar abajo */
+    gap: 20px;
+  }
+
+  .logo-img {
+    max-width: 180px; /* Logo más pequeño en celular */
+  }
+
+  h1 {
+    font-size: 2rem !important; /* Título Cyber-Pets más pequeño para que no se corte */
+  }
+
+  .terminal-box {
+    padding: 15px; /* Menos padding interno para que el texto respire */
+  }
+}
