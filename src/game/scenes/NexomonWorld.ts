@@ -66,7 +66,7 @@ export class NexomonWorld extends Scene {
     private statusText?: GameObjects.Text;
     private statsText?: GameObjects.Text;
     private player?: GameObjects.Container;
-    private cursors?: Input.Keyboard.CursorKeys;
+    private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
     private keys?: Record<string, Input.Keyboard.Key>;
 
     private obstacles: { x: number; y: number; radius: number }[] = [];
