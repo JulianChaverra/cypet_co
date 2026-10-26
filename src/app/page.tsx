@@ -30,7 +30,7 @@ function PixelPet() {
       </div>
       <div className="pet-label label-left"><b>VITALIDAD</b><span>ESTABLE</span><em /></div>
       <div className="pet-label label-right"><b>VÍNCULO</b><span>INICIANDO...</span><em /></div>
-      <div className="pet-coordinate">09° 41' 27" / DIGITAL LIFEFORM</div>
+      <div className="pet-coordinate">09° 41&apos; 27&quot; / DIGITAL LIFEFORM</div>
     </div>
   );
 }
@@ -162,7 +162,7 @@ export default function Home() {
 
       <section className="creators-section" id="creadores">
         <div className="section-shell creators-inner">
-          <img className="brand-logo-daju" src="/logos/daju-games-logo.png" alt="Cypet" />
+          <img className="brand-logo-daju" src="/logos/daju-games-logo.png" alt="Daju Games" />
           <div className="creators-copy"><SectionEyebrow>06 / UN PROYECTO EN FAMILIA</SectionEyebrow><h2>UN MUNDO DIGITAL.<br /><span>UNA AVENTURA REAL.</span></h2><p>Cypets nace de una idea compartida entre padre e hijo: imaginar un universo, aprender a construirlo y darle vida paso a paso. Queremos compartir el proceso real, los avances, los errores y cada pequeño descubrimiento mientras desarrollamos el juego juntos.</p><p>No somos un gran estudio detrás de una producción terminada. Somos dos creadores construyendo algo en lo que creemos, y esta historia también se escribe fuera de la pantalla.</p><div className="creator-actions"><Link className="button button-primary" href="https://www.instagram.com/cypet_CO" target="_blank" rel="noreferrer">SIGUE EL PROCESO <span>↗</span></Link><Link className="text-link" href="#apoyar">APOYA EL PROYECTO <span>↘</span></Link></div></div>
         </div>
       </section>
