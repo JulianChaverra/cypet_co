@@ -6,12 +6,14 @@ import { useRouter } from "next/navigation";
 import styles from "./intro.module.css";
 import Image from "next/image";
 import Link from "next/link";
+import CypetSprite from "../components/cypet/CypetSprite";
 
 type Stage = "welcome" | "signal" | "egg" | "materializing" | "revealed";
 type VoiceStatus = "idle" | "speaking" | "paused" | "unsupported";
 
 type Cypet = {
   id: string;
+  code: string;
   species_id: string;
   species_name: string;
   already_existed?: boolean;
@@ -75,8 +77,8 @@ export default function IntroPage() {
   const voiceEnabledRef = useRef(true);
   const voicesRef = useRef<SpeechSynthesisVoice[]>([]);
   const voiceStatusRef = useRef<VoiceStatus>("idle");
-  const mountedRef = useRef(false);
-
+  const mountedRef = useRef(false); 
+ 
   // AUDIO AMBIENTAL: referencia añadida.
   const ambienceRef = useRef<HTMLAudioElement | null>(null);
 
@@ -334,6 +336,7 @@ export default function IntroPage() {
         if (data.hasInitialCypet && data.cypet) {
           setCypet({
             id: data.cypet.id,
+            code: data.cypet.species?.code ?? "",
             species_id: data.cypet.species?.id ?? "",
             species_name: data.cypet.species?.name ?? "Cypet",
             already_existed: true,
@@ -398,6 +401,7 @@ export default function IntroPage() {
 
       setCypet({
         id: result.id,
+        code: result.species_code ?? "",
         species_id: result.species_id,
         species_name: result.species_name ?? "Cypet",
         already_existed: result.already_existed,
@@ -483,6 +487,42 @@ const introVideos: Partial<Record<Stage, string>> = {
 
     changeStage("signal");
   }
+
+const [petName, setPetName] = useState("");
+const [savingName, setSavingName] = useState(false);
+
+const petAnim = petName.trim().length > 0 ? "happiness" : "idle";
+const handleEnterGame = async () => {
+  if (!cypet) return;
+
+  const trimmedName = petName.trim();
+
+  // Si el usuario ingresó un nombre, persistirlo en la base de datos
+  if (trimmedName.length > 0) {
+    try {
+      setSavingName(true);
+      const res = await fetch("/api/cypet/nickname", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          cypet_id: cypet.id,
+          nickname: trimmedName,
+        }),
+      });
+
+      if (!res.ok) {
+        console.error("No se pudo guardar el nickname.");
+      }
+    } catch (err) {
+      console.error("Error al conectar con la API de nickname:", err);
+    } finally {
+      setSavingName(false);
+    }
+  }
+
+  // Ejecuta la función existente para continuar al juego
+  enterGame();
+};
 
   const narrationLabel = !supportsSpeech
     ? "Voz no disponible"
@@ -687,54 +727,78 @@ const introVideos: Partial<Record<Stage, string>> = {
         )}
 
         {stage === "revealed" && cypet && (
-          <>
-            <div className={styles.revealScene}>
-              <div className={styles.revealAura} />
-              <div className={styles.creaturePlaceholder}>
-                <span>✧</span>
-              </div>
-              <div className={`${styles.revealOrbit} ${styles.orbitOne}`} />
-              <div className={`${styles.revealOrbit} ${styles.orbitTwo}`} />
-            </div>
+                <>
+                    <p className={styles.eyebrow}>
+                    LA TERMINAL · VÍNCULO INICIAL ESTABLECIDO
+                    </p>
 
-            <p className={styles.eyebrow}>
-              LA TERMINAL · VÍNCULO INICIAL ESTABLECIDO
-            </p>
+                    <h1>
+                    Tu historia
+                    <br />
+                    comienza ahora.
+                    </h1>
 
-            <h1>
-              Tu historia
-              <br />
-              comienza ahora.
-            </h1>
+                    <CypetSprite
+                    species={cypet.code}
+                    animation={petAnim}
+                    size={450}
+                    loop={true}
+                    />
 
-            <p className={styles.creatureName}>
-              {cypet.species_name}
-            </p>
+                    <p className={styles.creatureName}>
+                    {petName.trim() ? petName : cypet.species_name}
+                    </p>
 
-            <p className={styles.description}>
-              Este es tu primer Cypet. Su historia todavía está por
-              escribirse.
-              <br />
-              <br />
-              Lo que aprenda, la confianza que construyan y las
-              experiencias que compartan influirán en aquello en lo
-              que puede convertirse.
-              <br />
-              <br />
-              La red necesita protectores. Y tu Cypet necesitará algo
-              más que instrucciones: te necesita a ti.
-            </p>
+                    {/* Input de asignación de nombre */}
+                    <div style={{ margin: "1.25rem 0", display: "flex", flexDirection: "column", gap: "0.5rem", width: "100%", maxWidth: "340px" }}>
+                    <label htmlFor="cypet-name-input" style={{ fontSize: "0.85rem", opacity: 0.85 }}>
+                        Asigna un nombre a tu compañero:
+                    </label>
+                    <input
+                        id="cypet-name-input"
+                        type="text"
+                        maxLength={50}
+                        value={petName}
+                        onChange={(e) => setPetName(e.target.value)}
+                        placeholder={cypet.species_name || "Escribe su nombre..."}
+                        autoComplete="off"
+                        style={{
+                        padding: "0.75rem 1rem",
+                        background: "rgba(255, 255, 255, 0.05)",
+                        border: "1px solid rgba(6, 182, 212, 0.4)",
+                        borderRadius: "6px",
+                        color: "#ffffff",
+                        fontSize: "1rem",
+                        outline: "none",
+                        fontFamily: "inherit",
+                        }}
+                    />
+                    </div>
 
-            <button
-              className={styles.primaryButton}
-              onClick={enterGame}
-              disabled={loading}
-            >
-              {loading ? "Sincronizando..." : "Entrar a La Terminal"}
-              <span> →</span>
-            </button>
-          </>
-        )}
+                    <p className={styles.description}>
+                    Este es tu primer Cypet. Su historia todavía está por
+                    escribirse.
+                    <br />
+                    <br />
+                    Lo que aprenda, la confianza que construyan y las
+                    experiencias que compartan influirán en aquello en lo
+                    que puede convertirse.
+                    <br />
+                    <br />
+                    La red necesita protectores. Y tu Cypet necesitará algo
+                    más que instrucciones: te necesita a ti.
+                    </p>
+
+                    <button
+                    className={styles.primaryButton}
+                    onClick={handleEnterGame}
+                    disabled={loading || savingName}
+                    >
+                    {loading || savingName ? "Sincronizando..." : "Entrar a La Terminal"}
+                    <span> →</span>
+                    </button>
+                </>
+                )}
 
         {error && (
           <p className={styles.errorMessage} role="alert">

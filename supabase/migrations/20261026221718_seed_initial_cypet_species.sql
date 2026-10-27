@@ -15,7 +15,7 @@ values
   ),
   (
     'cyber_dragon',
-    'Dragón digital',
+    'Dragón digital',   
     'Una criatura enigmática con una energía extraordinaria.',
     null
   ),
