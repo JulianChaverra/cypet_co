@@ -461,9 +461,13 @@ export default function IntroPage() {
     // }
   }
 
-   function goBack() {
-  router.push("/");
-}
+
+const introVideos: Partial<Record<Stage, string>> = {
+  welcome: "/videos/intro/bienvenida.webm",
+  signal: "/videos/intro/senal.webm",
+  egg: "/videos/intro/huevo.webm",
+  materializing: "/videos/intro/materializacion.webm",
+};
 
   function beginSignal() {
     setHasStarted(true);
@@ -510,6 +514,19 @@ export default function IntroPage() {
       <div className={styles.headerSpacer} aria-hidden="true" />
     </div>
       <section className={styles.scene}>
+        {introVideos[stage] && (
+            <video
+                key={introVideos[stage]}
+                className={styles.introVideo}
+                src={introVideos[stage]}
+                autoPlay
+                muted
+                playsInline
+                loop
+                preload="auto"
+                aria-hidden="true"
+            />
+            )}
         {stage === "welcome" && (
           <>
             <p className={styles.eyebrow}>UNA SEÑAL TE HA ENCONTRADO</p>
@@ -535,12 +552,7 @@ export default function IntroPage() {
 
         {stage === "signal" && (
           <>
-            <div className={styles.signalArt}>
-              <div className={`${styles.signalRing} ${styles.ringOne}`} />
-              <div className={`${styles.signalRing} ${styles.ringTwo}`} />
-              <div className={styles.signalCore}>✦</div>
-            </div>
-
+           
             <p className={styles.eyebrow}>
               LA TERMINAL · SEÑAL ENTRANTE
             </p>
@@ -571,15 +583,7 @@ export default function IntroPage() {
         )}
 
         {stage === "egg" && (
-          <>
-            <div className={styles.eggScene}>
-              <div className={styles.eggAura} />
-              <div className={styles.egg}>
-                <div className={styles.eggShine} />
-                <div className={styles.eggSymbol}>✦</div>
-              </div>
-              <div className={styles.eggPlatform} />
-            </div>
+          <>           
 
             <p className={styles.eyebrow}>
               LA TERMINAL · PAQUETE IDENTIFICADO
@@ -619,18 +623,7 @@ export default function IntroPage() {
 
         {stage === "materializing" && (
           <>
-            <div className={styles.materializeScene}>
-              <div className={styles.materializeRing} />
-              <div className={styles.materializeCore}>✦</div>
-              <div className={styles.materializeParticles}>
-                {Array.from({ length: 16 }, (_, i) => (
-                  <span
-                    key={i}
-                    style={{ "--i": i } as CSSProperties}
-                  />
-                ))}
-              </div>
-            </div>
+           
 
             <p className={styles.eyebrow}>
               LA TERMINAL · SINCRONIZACIÓN

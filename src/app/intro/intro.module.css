@@ -495,3 +495,14 @@
   font-size: 22px;
   line-height: 1;
 }
+
+.introVideo {
+  position: relative;
+  display: block;
+  inset: 0;
+  width: 100%;
+  height: 80%;
+  object-fit: fill;
+  pointer-events: none;
+  z-index: 0;
+}
