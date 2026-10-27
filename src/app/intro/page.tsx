@@ -5,6 +5,7 @@ import type { CSSProperties } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./intro.module.css";
 import Image from "next/image";
+import Link from "next/link";
 
 type Stage = "welcome" | "signal" | "egg" | "materializing" | "revealed";
 type VoiceStatus = "idle" | "speaking" | "paused" | "unsupported";
@@ -495,7 +496,7 @@ export default function IntroPage() {
 
       <div className={styles.authHeader}>      
 
-      <a className={styles.logo} href="/" aria-label="Cypet, inicio">
+      <Link className={styles.logo} href="/" aria-label="Cypet, inicio">
         <Image
             src="/logos/cypet-logo.png"
             alt="Cypet"
@@ -504,7 +505,7 @@ export default function IntroPage() {
             priority
             className={styles.logoImage}
         />
-        </a>
+        </Link>
 
       <div className={styles.headerSpacer} aria-hidden="true" />
     </div>

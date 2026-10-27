@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import styles from "./auth.module.css";
 import Image from "next/image";
+import Link from "next/link";
 
 type AuthMode = "register" | "login";
 type AuthStep = "details" | "otp";
@@ -241,7 +242,7 @@ export default function AuthPage() {
         <span>VOLVER</span>
       </button>
 
-      <a className={styles.logo} href="/" aria-label="Cypet, inicio">
+      <Link  className={styles.logo} href="/" aria-label="Cypet, inicio">
         <Image
             src="/logos/cypet-logo.png"
             alt="Cypet"
@@ -250,7 +251,7 @@ export default function AuthPage() {
             priority
             className={styles.logoImage}
         />
-        </a>
+        </Link>
 
       <div className={styles.headerSpacer} aria-hidden="true" />
     </div>
